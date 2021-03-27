@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>API Fun</title>
+    <script>
+        
+        function getAPI() {
+            
+            newRequest = new XMLHttpRequest();
+            if (!newRequest) {
+                alert("Unable to complete the XMLHttpRequest");
+                return;
+            }
+            newRequest.open("GET", "https://api.exchangeratesapi.io/latest?base=USD", true);
+            
+            newRequest.onreadystatechange = function() {
+                if (newRequest.readyState == 4 && newRequest.status == 200) {
+                    dataText = newRequest.responseText;
+                    dataParsed = JSON.parse(dataText);
+                    euro = dataParsed["rates"]["EUR"];
+                    display = "1 USD = " + euro + " EUR";
+                    document.getElementById("data").innerHTML = display;
+                }
+                if (newRequest.readyState == 4 && newRequest.status == 204) {
+                    error = "No data received.";
+                    document.getElementById("data").innerHTML = error;
+                }
+                if (newRequest.readyState == 3) {
+                    error = "Data not received yet.";
+                    document.getElementById("data").innerHTML = error;
+                }
+            }
+            newRequest.send();
+        }
+    </script>
+</head>
+    
+<body onload="getAPI();">
+    <h1>US Dollars to Euros</h1>
+    <p id="data">&nbsp;</p>
+    <p>This API allows for individuals to access different conversion rates of currencies areound the world.</p>
+    <p>Website: https://api.exchangeratesapi.io/</p>
+    <p>For this request, "GET" was used and put my API key and "EUR". This made it
+        possible to access the conversion data with USD as the base. I 
+        accessed the "EUR" key within the given "rates" object.</p>
+    <p>This API could be useful for anyone who does online shopping from different
+        countries or for people that work with money daily and have foreign affairs.</p>
+</body>
+</html>
