@@ -2,7 +2,6 @@
 <head>
     <title>API Fun</title>
     <script>
-        
         function getAPI() {
             
             newRequest = new XMLHttpRequest();
@@ -10,13 +9,16 @@
                 alert("Unable to complete the XMLHttpRequest");
                 return;
             }
-            newRequest.open("GET", "https://api.exchangeratesapi.io/latest?base=USD", true);
+            //https://api.exchangeratesapi.io/v1/latest
+            //https://api.exchangeratesapi.io/latest?base=USD
+
+            newRequest.open("GET", "http://api.currencylayer.com/live?access_key=ef7859828f538c87d38078f76e9703c7&currencies=USD,EUR&format=1", true);
             
             newRequest.onreadystatechange = function() {
                 if (newRequest.readyState == 4 && newRequest.status == 200) {
                     dataText = newRequest.responseText;
                     dataParsed = JSON.parse(dataText);
-                    euro = dataParsed["rates"]["EUR"];
+                    euro = dataParsed["quotes"]["USDEUR"];
                     display = "1 USD = " + euro + " EUR";
                     document.getElementById("data").innerHTML = display;
                 }
@@ -33,16 +35,20 @@
         }
     </script>
 </head>
-    
 <body onload="getAPI();">
-    <h1>US Dollars to Euros</h1>
+    <h1>US Dollars to Euros With New Website</h1>
     <p id="data">&nbsp;</p>
+    
     <p>This API allows for individuals to access different conversion rates of currencies areound the world.</p>
-    <p>Website: https://api.exchangeratesapi.io/</p>
-    <p>For this request, "GET" was used and put my API key and "EUR". This made it
-        possible to access the conversion data with USD as the base. I 
-        accessed the "EUR" key within the given "rates" object.</p>
+    
+    <p>New Website Used: https://currencylayer.com/</p>
+    
+    <p>For this request, "GET" was used and I put in my new API key and "USDEUR" into the open request to access the necessary infromation. This made it
+        possible to access the conversion data with USD as the base currency and the EUR as the target currency. I 
+        accessed the "USDEUR" key within the given "quotes" object.</p>
+    
     <p>This API could be useful for anyone who does online shopping from different
         countries or for people that work with money daily and have foreign affairs.</p>
+    
 </body>
 </html>
